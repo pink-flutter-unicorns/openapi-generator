@@ -5,10 +5,10 @@
 
 import superagent from "superagent";
 {{! see https://www.npmjs.com/package/superagent && https://github.com/ladjs/superagent }}
-{{#useQueryString}}
+{{^useURLSearchParams}}
 import querystring from "querystring";
 {{! see https://www.npmjs.com/package/querystring && https://github.com/Gozala/querystring }}
-{{/useQueryString}}
+{{/useURLSearchParams}}
 
 {{#emitJSDoc}}/**
 * @module {{#invokerPackage}}{{.}}/{{/invokerPackage}}ApiClient
@@ -306,7 +306,7 @@ class ApiClient {
     {{#emitJSDoc}}/**
     * Applies authentication headers to the request.
     * @param {Object} request The request object created by a <code>superagent()</code> call.
-    * @param {Array.<String>} authNames An array of authentication method names.
+    * @param {Array.s<String>} authNames An array of authentication method names.
     */{{/emitJSDoc}}
     applyAuthToRequest(request, authNames) {
         authNames.forEach((authName) => {
@@ -462,14 +462,16 @@ class ApiClient {
         }
 
         if (contentType === 'application/x-www-form-urlencoded') {
-            {{#useQueryString}}
-            request.send(querystring.stringify(this.normalizeParams(formParams)));
-            {{/useQueryString}}
-            {{^useQueryString}}
+            var queryString = "";
+            {{^useURLSearchParams}}
+            queryString = querystring.stringify(this.normalizeParams(formParams));
+            {{/useURLSearchParams}}
+            {{#useURLSearchParams}}
             let normalizedParams = this.normalizeParams(formParams)
             let urlSearchParams =  new URLSearchParams(normalizedParams);
-            request.send(urlSearchParams.toString());
-            {{/useQueryString}}
+            queryString = urlSearchParams.toString();
+            {{/useURLSearchParams}}
+            request.send(queryString);
         } else if (contentType == 'multipart/form-data') {
             var _formParams = this.normalizeParams(formParams);
             for (var key in _formParams) {
