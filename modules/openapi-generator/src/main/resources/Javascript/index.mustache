@@ -1,7 +1,5 @@
 {{>licenseInfo}}
 
-{{! TODO: change this class }}
-
 import ApiClient from './ApiClient';
 {{#models}}import {{#model}}{{classFilename}}{{/model}} from './{{#modelPackage}}{{.}}/{{/modelPackage}}{{importPath}}';
 {{/models}}{{#apiInfo}}{{#apis}}import {{importPath}} from './{{#apiPackage}}{{.}}/{{/apiPackage}}{{importPath}}';
