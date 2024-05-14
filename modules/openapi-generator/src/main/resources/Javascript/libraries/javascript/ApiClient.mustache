@@ -458,14 +458,13 @@ class ApiClient {
         }
 
         if (contentType === 'application/x-www-form-urlencoded') {
-            var queryString = "";
             {{^useURLSearchParams}}
-            queryString = querystring.stringify(this.normalizeParams(formParams));
+            let queryString = querystring.stringify(this.normalizeParams(formParams));
             {{/useURLSearchParams}}
             {{#useURLSearchParams}}
             let normalizedParams = this.normalizeParams(formParams)
             let urlSearchParams =  new URLSearchParams(normalizedParams);
-            queryString = urlSearchParams.toString();
+            let queryString = urlSearchParams.toString();
             {{/useURLSearchParams}}
             request.send(queryString);
         } else if (contentType == 'multipart/form-data') {
