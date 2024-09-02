@@ -302,7 +302,7 @@ class ApiClient {
     {{#emitJSDoc}}/**
     * Applies authentication headers to the request.
     * @param {Object} request The request object created by a <code>superagent()</code> call.
-    * @param {Array.s<String>} authNames An array of authentication method names.
+    * @param {Array.<String>} authNames An array of authentication method names.
     */{{/emitJSDoc}}
     applyAuthToRequest(request, authNames) {
         authNames.forEach((authName) => {
